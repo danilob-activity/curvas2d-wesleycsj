@@ -12,11 +12,11 @@
             max-width: 900px;
             margin: auto;
         }
-        
+
         .playable-buttons {
             margin-left: auto;
         }
-        
+
         .playable-code {
             width: 900px;
         }
@@ -26,23 +26,25 @@
 <body>
     <!-- Learn about this code on MDN: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale -->
     <article>
+      <div><p>Para selecionar um objeto clique duas vezes sobre o ponto e mova com o mouse.</p>
+        <p>Quando selecionado um ponto, dê um clique simples para soltar  o objeto</p>
+        <p>No caso das setas da curva de hermite, quando selecionado um ponto, utilize o scroll do mouse para alterar o ângulo da seta.</p></div>
         <canvas id="canvas" width="900" height="480" class="playable-canvas"></canvas>
         <div class="playable-buttons">
             <input id="save" type="button" value="Save" />
         </div>
         <textarea id="code" class="playable-code">
-<!-- p0 = [-250,-100]; 
-p1 = [250,140]; 
-p2 = [-1200,+150]; 
-p3 = [-300,-525]; 
-setHermite(p0,p1,p2,p3); -->
-p0 = [250,100]; 
-p1 = [200,150]; 
-p2 = [200,-150]; 
-p3 = [-200,-225]; 
+p0 = [-250,-100];
+p1 = [250,140];
+p2 = [-1200,+150];
+p3 = [-300,-525];
+setHermite(p0,p1,p2,p3);
+p0 = [300,0];
+p1 = [200,150];
+p2 = [200,-150];
+p3 = [-200,-225];
 setBezier(p0,p1,p2,p3);
   </textarea>
-
         <script src="gl-matrix.js"></script>
         <script src="script.js"></script>
     </article>

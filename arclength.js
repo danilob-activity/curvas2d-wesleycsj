@@ -279,7 +279,7 @@ ArcLength.prototype.getU = function(indice, s) {
 }
 
 function exampleOfUse() {
-    console.log("Example of use ArcLength");
+    //console.log("Example of use ArcLength");
     var p0 = new Vec2(0, 0);
     var p1 = new Vec2(10, 0);
     var p2 = new Vec2(10, 10);
@@ -299,7 +299,7 @@ function exampleOfUse() {
 
 
 function createArc(p0l, p1l, p2l, p3l) {
-    console.log("Example of use ArcLength");
+  //  console.log("Example of use ArcLength");
     var p0 = new Vec2(p0l[0], p0l[1]);
     var p1 = new Vec2(p1l[0], p1l[1]);
     var p2 = new Vec2(p2l[0], p2l[1]);

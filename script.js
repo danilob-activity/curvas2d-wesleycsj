@@ -13,19 +13,35 @@ var fps = 60;
 var frame_current = 0;
 var total_time = 3;
 
+window.h0 = [-250,-100];
+window.h1 = [250,140];
+window.h3 = [Math.cos(0 * Math.PI / 180) * 500,Math.sin(0 * Math.PI / 180) * 500];
+window.h2 = [Math.cos(0 * Math.PI / 180) * 500,Math.sin(0 * Math.PI / 180) * 500];
+// window.h2 = [-1200,+150];
+// window.h3 = [300,-525];
+
+
+window.p0 = [300,0];
+window.p1 = [200,150];
+window.p2 = [200,-150];
+window.p3 = [-200,-225];
 function drawCanvas() {
-
-
+   let that = this
     setTimeout(function() {
-        requestAnimationFrame(drawCanvas);
+        requestAnimationFrame(drawCanvas)
         frame_current += 1;
         frame_current = frame_current % (total_time * fps);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-        eval(textarea.value);
+        //eval(code)
 
+        setHermite(window.h0,window.h1,window.h2,window.h3);
 
+        setBezier(p0,p1,p2,p3);
 
+        if ((frame_current >= ((total_time * fps) / 3)) && (frame_current <= (((total_time * fps) * 2) / 3))) {
+          frame_current = frame_current + 1
+        }
         // call the draw function again!
         //requestAnimationFrame(draw);
 
@@ -118,7 +134,7 @@ function setHermite(p0, p1, p0l, p1l) {
 
 }
 
-function setBezier(p0, p1, p2, p3) {
+function setBezier(p0,p1,p2,p3) {
     points_curveB = []
     ctx.beginPath();
     M = transformCanvas(canvas.width, canvas.height);
@@ -147,7 +163,7 @@ function setBezier(p0, p1, p2, p3) {
     var length_current = total_length * (frame_current / (total_time * fps));
     p_current = arc[0].getVec4S(arc[1], length_current)
 
-    //p_current = calculatePointCurveBezier(p0, p1, p2, p3, frame_current / (total_time * fps));
+    // p_current = calculatePointCurveBezier(p0, p1, p2, p3, frame_current / (total_time * fps));
     drawCircle(mult(M, translate(p_current.x, p_current.y)), ctx, "#52437b");
 
 }
@@ -252,3 +268,86 @@ save.addEventListener("click", function() {
 
 textarea.addEventListener("input", drawCanvas);
 window.addEventListener("load", drawCanvas);
+
+function CheckCollision(x1, y1, w1, h1, x2, y2, w2, h2) {
+    return (x1 < x2 + w2) && (x2 < x1 + w1) && (y1 < y2 + h2) && (y2 < y1 + h1)
+}
+
+let selected = -1;
+canvas.addEventListener('dblclick', function(e){
+  let M = transformCanvas(-canvas.width, canvas.height);
+  let N = transformCanvas(canvas.width, canvas.height);
+  let mouseTranslated = multVec(M, [e.offsetX, e.offsetY, 1]);
+  let posh0 = multVec(mult(N, translate(window.h0[0],window.h0[1])), [0, 0, 1]);
+  if(CheckCollision(window.h0[0] - 5,window.h0[1] - 5,10,10, mouseTranslated[0], mouseTranslated[1], 1, 1)){
+    selected = 0
+  } else if(CheckCollision(window.h1[0] - 5,window.h1[1] - 5,10,10, mouseTranslated[0], mouseTranslated[1], 1, 1)){
+    selected = 1
+  } else if(CheckCollision(window.h2[0] - 5,window.h2[1] - 5,10,10, mouseTranslated[0], mouseTranslated[1], 1, 1)){
+    selected = 2
+  } else if(CheckCollision(window.h3[0] - 5,window.h3[1] - 5,10,10, mouseTranslated[0], mouseTranslated[1], 1, 1)){
+    selected = 3
+  } else if(CheckCollision(window.p0[0] - 5,window.p0[1] - 5,10,10, mouseTranslated[0], mouseTranslated[1], 1, 1)){
+    selected = 4
+  } else if(CheckCollision(window.p1[0] - 5,window.p1[1] - 5,10,10, mouseTranslated[0], mouseTranslated[1], 1, 1)){
+    selected = 5
+  } else if(CheckCollision(window.p2[0] - 5,window.p2[1] - 5,10,10, mouseTranslated[0], mouseTranslated[1], 1, 1)){
+    selected = 6
+  } else if(CheckCollision(window.p3[0] - 5,window.p3[1] - 5,10,10, mouseTranslated[0], mouseTranslated[1], 1, 1)){
+    selected = 7
+  }
+})
+
+canvas.addEventListener('mousemove', function(e){
+  let M = transformCanvas(-canvas.width, canvas.height);
+  let mouseTranslated = multVec(M, [e.offsetX, e.offsetY, 1]);
+  if(selected === 0){
+    h0[0] = mouseTranslated[0];
+    h0[1] = mouseTranslated[1];
+  } else if(selected === 1){
+    h1[0] = mouseTranslated[0];
+    h1[1] = mouseTranslated[1];
+  } else if(selected === 2){
+    h2[0] = mouseTranslated[0];
+    h2[1] = mouseTranslated[1];
+  } else if(selected === 3){
+    h3[0] = mouseTranslated[0];
+    h3[1] = mouseTranslated[1];
+  } else if(selected === 4){
+    p0[0] = mouseTranslated[0];
+    p0[1] = mouseTranslated[1];
+  } else if(selected === 5){
+    p1[0] = mouseTranslated[0];
+    p1[1] = mouseTranslated[1];
+  } else if(selected === 6){
+    p2[0] = mouseTranslated[0];
+    p2[1] = mouseTranslated[1];
+  } else if(selected === 7){
+    p3[0] = mouseTranslated[0];
+    p3[1] = mouseTranslated[1];
+  }
+  console.log(selected)
+})
+
+canvas.addEventListener('click', function(e){
+  if(selected > -1){
+    selected = -1
+    console.log('left')
+  }
+})
+let angle0 = 0
+let angle1 = 0
+canvas.onwheel = function(e) {
+  e.preventDefault()
+    var dir = Math.sign(e.deltaY);
+    if(selected === 0){
+      window.h2[0] = Math.cos(angle0 * Math.PI / 180) * 500
+      window.h2[1] = Math.sin(angle0 * Math.PI / 180) * 500
+      angle0 = angle0 + e.deltaY
+
+    } else if(selected === 1){
+      window.h3[0] = Math.cos(angle1 * Math.PI / 180) * 500
+      window.h3[1] = Math.sin(angle1 * Math.PI / 180) * 500
+      angle1 = angle1 + e.deltaY
+    }
+}
