@@ -1,53 +1,96 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Curvas</title>
-    <link href="layout.css" rel="stylesheet">
-    <script src="mathfunctions.js"></script>
-    <script src="arclength.js"></script>
+  <meta charset="UTF-8">
+  <title>Curvas</title>
+  <link href="layout.css" rel="stylesheet">
+  <script src="mathfunctions.js"></script>
+  <script src="arclength.js"></script>
+  <link href="node_modules/bulma/css/bulma.css" rel="stylesheet">
+  </style>
+  <style>
+    html {
+      background-color: #263238;
+    }
+    div.columns {
+      padding-top: 10px;
+    }
+    #sidebar {
+      background-color: #ECEFF1;
+      border-radius: 5px;
+      padding-left: 15px;
+    }
+    canvas {
+      border: none !important;
+      border-radius: 5px !important;
+      background-color: #fff;
+    }
 
-    <style>
-        article {
-            max-width: 900px;
-            margin: auto;
-        }
+    .playable-buttons {
+      margin-left: auto;
+    }
 
-        .playable-buttons {
-            margin-left: auto;
-        }
-
-        .playable-code {
-            width: 900px;
-        }
-    </style>
+    .playable-code {
+      width: 900px;
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Learn about this code on MDN: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale -->
-    <article>
-      <div><p>Para selecionar um objeto clique duas vezes sobre o ponto e mova com o mouse.</p>
-        <p>Quando selecionado um ponto, dê um clique simples para soltar  o objeto</p>
-        <p>No caso das setas da curva de hermite, quando selecionado um ponto, utilize o scroll do mouse para alterar o ângulo da seta.</p></div>
+  <section class="hero is-info">
+    <div class="hero-body">
+      <div class="container">
+        <h2 id="msg_notification" class="subtitle">
+        Hero subtitle
+      </h2>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <div class="columns">
+      <div class="column   ">
         <canvas id="canvas" width="900" height="480" class="playable-canvas"></canvas>
-        <div class="playable-buttons">
-            <input id="save" type="button" value="Save" />
+      </div>
+      <div id="sidebar" class="column is-3" style="margin-top: 10px !important;">
+        <ul>
+          <li><p class="subtitle">Hermite ease-in</p>
+            <input id="rangeHeasein" type="range" step="0.05" min="0" max="1">
+          </li>
+          <li><p class="subtitle">Hermite ease-out</p>
+            <input id="rangeHeaseout" type="range" step="0.05" min="0" max="1">
+          </li>
+          <li><p class="subtitle">Bézier ease-in</p>
+            <input id="rangeBeasein" type="range" step="0.05" min="0" max="1">
+          </li>
+          <li><p class="subtitle">Bézier ease-out</p>
+            <input id="rangeBeaseout" type="range" step="0.05" min="0" max="1">
+          </li>
+        </ul>
+        <hr />
+        <div>
+          <button type="button" value="Save" onclick="atilamode = !atilamode" class="button is-light is-outlined">Another Mode</button>
+          <button id="save" type="button" value="Save" class="button is-info">Save Image</button>
         </div>
-        <textarea id="code" class="playable-code">
-p0 = [-250,-100];
-p1 = [250,140];
-p2 = [-1200,+150];
-p3 = [-300,-525];
-setHermite(p0,p1,p2,p3);
+      </div>
+    </div>
+    <img id="img" src="index.png" class="is-hidden" width="20px" alt="">
+  </div>
+  <article>
+  </article>
+  <script src="gl-matrix.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
+<!-- <textarea id="code" class="playable-code">
+h0 = [-250,-100];
+h1 = [250,140];
+h2 = [Math.cos(0 * Math.PI / 180) * 500,Math.sin(0 * Math.PI / 180) * 500];
+h3 = [Math.cos(0 * Math.PI / 180) * 500,Math.sin(0 * Math.PI / 180) * 500];
+setHermite(h0,h1,h2,h3);
 p0 = [300,0];
 p1 = [200,150];
 p2 = [200,-150];
 p3 = [-200,-225];
 setBezier(p0,p1,p2,p3);
-  </textarea>
-        <script src="gl-matrix.js"></script>
-        <script src="script.js"></script>
-    </article>
-</body>
-
-</html>
+</textarea> -->
